@@ -1,6 +1,7 @@
 
 import numpy as np
 import seaborn as sns
+import colorednoise as cn
 
 # dash
 import dash
@@ -65,7 +66,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
                 dcc.Input(id="alpha",
                           type='number',
-                          value=1.0)
+                          value=0.1)
 
             ],
 
@@ -83,7 +84,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
                 dcc.Input(id="beta",
                           type='number',
-                          value=1.0)
+                          value=0.1)
 
             ],
 
@@ -101,7 +102,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
                 dcc.Input(id="gamma",
                           type='number',
-                          value=1.0)
+                          value=0.1)
 
             ],
 
@@ -115,8 +116,13 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             dcc.Dropdown(
                 id='noise_bool',
-                options=[{'label': 'Noise', 'value': True}, {'label': 'No Noise', 'value': False}],
-                value=False
+                options=[{'label': 'No Noise', 'value': True},
+                         {'label': 'Violet Noise', 'value': 'violet noise'},
+                         {'label': 'Blue Noise', 'value': 'blue noise'},
+                         {'label': 'White Noise', 'value': 'white noise'},
+                         {'label': 'Pink Noise', 'value': 'pink noise'},
+                         {'label': 'Brown Noise', 'value': 'brown noise'}],
+                value=True
             ),
 
             html.Div(children=[], style={'marginBottom': '1em'}),
@@ -308,8 +314,19 @@ def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, no
         elif trend == 'exponential':
             time_series += alpha * np.exp(beta * time)
 
-    if noise_bool:
-        time_series += np.random.normal(float(noise_mean), float(noise_sd), len(time_series))
+    if not noise_bool:
+        pass
+    else:
+        if noise_bool == 'violet noise':
+            time_series += cn.powerlaw_psd_gaussian(-2, len(time_series))
+        elif noise_bool == 'blue noise':
+            time_series += cn.powerlaw_psd_gaussian(-1, len(time_series))
+        elif noise_bool == 'white noise':
+            time_series += cn.powerlaw_psd_gaussian(0, len(time_series))
+        elif noise_bool == 'pink noise':
+            time_series += cn.powerlaw_psd_gaussian(1, len(time_series))
+        elif noise_bool == 'brown noise':
+            time_series += cn.powerlaw_psd_gaussian(2, len(time_series))
 
     fig_1 = px.line(x=time, y=time_series,
                     labels={"x": "Time", "y": "Displacement"})
