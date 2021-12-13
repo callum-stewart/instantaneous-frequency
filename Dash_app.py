@@ -3,6 +3,7 @@ import numpy as np
 import seaborn as sns
 import colorednoise as cn
 from matplotlib import mlab
+from scipy import signal as sig
 from scipy.fft import fft, fftfreq
 
 # dash
@@ -21,6 +22,40 @@ time_series = np.zeros_like(time)
 knots = np.linspace(0, 10 * np.pi, 101)
 
 sns.set(style='darkgrid')
+
+# frequency modulation - top
+
+
+def frequency(time_signal, frequency_period, min_frequency, max_frequency):
+
+    end_time = time_signal[-1]  # last time point value
+    # time over which frequency changes from minimum frequency to maximum frequency or vice versa
+    freq_half_mod = frequency_period / 2  # half period
+    time_points = len(time_signal)  # total number of time points
+    time_diff = np.diff(time_signal)  # difference between time points
+
+    increments = int(end_time / freq_half_mod)
+
+    increment_length = int(max((time_points - 1) / increments, 1))  # minimum set to 1 as trivial
+
+    new_time_signal = np.zeros_like(time_signal)
+    new_time_signal[0] = time_signal[0]
+
+    for i in range(1, time_points):
+        if np.mod(i / increment_length, 1) == 0:
+            temp_mod = 1
+        else:
+            temp_mod = np.mod(i / increment_length, 1)
+        if ((i - 1) // increment_length) % 2 == 0:
+            new_time_signal[i] = new_time_signal[i - 1] + (min_frequency + temp_mod * (max_frequency - min_frequency)) \
+                                 * time_diff[i - 1]
+        else:
+            new_time_signal[i] = new_time_signal[i - 1] + (max_frequency - temp_mod * (max_frequency - min_frequency)) \
+                                 * time_diff[i - 1]
+
+    return new_time_signal
+
+# frequency modulation - bottom
 
 # Dash App - start
 
@@ -237,6 +272,102 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.H2('Time Series', style={'text-align': 'center', 'color': colors['text']}),
 
+            html.H3('Minimum frequency:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_freq_mod",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum frequency:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_freq_mod",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Frequency period:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="freq_period",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Minimum amplitude:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_amp_mod",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum amplitude:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_amp_mod",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Amplitude modulation frequency:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="amp_freq",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
             dcc.Graph(
                 id='time_series_graph'
             )
@@ -449,6 +580,14 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
            State(component_id='noise_sd', component_property='value'),
            State(component_id='discontinuities', component_property='value'),
            State(component_id='discontinuity_sd', component_property='value'),
+
+           State(component_id='min_freq_mod', component_property='value'),
+           State(component_id='max_freq_mod', component_property='value'),
+           State(component_id='freq_period', component_property='value'),
+           State(component_id='min_amp_mod', component_property='value'),
+           State(component_id='max_amp_mod', component_property='value'),
+           State(component_id='amp_freq', component_property='value'),
+
            State(component_id='ft_max_frequency', component_property='value'),
            State(component_id='ft_window', component_property='value'),
            State(component_id='stft_max_frequency', component_property='value'),
@@ -459,10 +598,14 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
            State(component_id='which_imfs', component_property='value')])
 
 def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, noise_sd, discontinuities,
-                  discontinuity_sd, ft_max_frequency, ft_window, stft_max_frequency, stft_window_width,
+                  discontinuity_sd, min_freq_mod, max_freq_mod, freq_period, min_amp_mod, max_amp_mod, amp_freq,
+                  ft_max_frequency, ft_window, stft_max_frequency, stft_window_width,
                   mwt_max_frequency, mwt_window_width, max_frequency, which_imfs):
 
-    time_series = np.zeros_like(time) + np.cos(time) + np.cos(5 * time)
+    freq_time = frequency(time, freq_period, min_freq_mod, max_freq_mod)
+    amp_time_series = ((max_amp_mod - min_amp_mod) / 2) * np.sin(amp_freq * time) + \
+                      ((max_amp_mod - min_amp_mod) / 2) + min_amp_mod
+    time_series = amp_time_series * np.cos(freq_time)
 
     if not trend:
         pass
@@ -570,8 +713,11 @@ def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, no
 
     f_time = fftfreq(int(len(time_series) - 1), time[1] - time[0])[:int(len(time_series) - 1) // 2] * 2 * np.pi
 
-
-    f_time_series = fft(time_series)
+    if ft_window:
+        ft_window_multiply = np.ones_like(time_series)
+    if ft_window == 'window':
+        ft_window_multiply = sig.get_window(window='hann', Nx=len(time_series), fftbins=False)
+    f_time_series = fft(ft_window_multiply * time_series)
 
     x_hs, y, z = [0, 5 * np.pi], f_time, (2.0 / int(len(time_series) - 1) *
                                           np.abs(f_time_series[0:int(len(time_series) - 1) // 2])).reshape(-1, 1)
