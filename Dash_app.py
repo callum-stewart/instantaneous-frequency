@@ -247,7 +247,38 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
         html.Div(children=[
 
+            html.H1('Time-Frequency Analysis', style={'text-align': 'center', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
             html.H2('Fourier Transform', style={'text-align': 'center', 'color': colors['text']}),
+
+            html.H3('Fourier Transform Maximum Frequency:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.Div(children=[
+
+                dcc.Input(id="ft_max_frequency",
+                          type='number',
+                          value=10)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.H3('Fourier Transform Window:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            dcc.Dropdown(
+                id='ft_window',
+                options=[{'label': 'No Window', 'value': True},
+                         {'label': 'Window', 'value': 'window'}],
+                value=True
+            ),
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
@@ -257,7 +288,90 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.H2('Short-Time Fourier Transform', style={'text-align': 'center', 'color': colors['text']}),
 
+            html.H3('Short-Time Fourier Transform Maximum Frequency:', style={'text-align': 'left', 'color': colors['text']}),
+
             html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.Div(children=[
+
+                dcc.Input(id="stft_max_frequency",
+                          type='number',
+                          value=10)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Short-Time Fourier Transform Window Width:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.Div(children=[
+
+                dcc.Input(id="stft_window_width",
+                          type='number',
+                          value=256)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            dcc.Graph(
+                id='STFT'
+            ),
+
+            html.H2('Wavelet Transform', style={'text-align': 'center', 'color': colors['text']}),
+
+            html.H3('Morlet Wavelet Maximum Frequency:',
+                    style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.Div(children=[
+
+                dcc.Input(id="mwt_max_frequency",
+                          type='number',
+                          value=10)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Morlet Wavelet Window Width:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.Div(children=[
+
+                dcc.Input(id="mwt_window_width",
+                          type='number',
+                          value=256)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            dcc.Graph(
+                id='MWT'
+            ),
+
+            html.H2('Intrinsic Mode Functions', style={'text-align': 'center', 'color': colors['text']}),
 
             html.H3('Which IMFs:', style={'text-align': 'left', 'color': colors['text']}),
 
@@ -289,50 +403,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                 style={'text-align': 'right'}
 
             ),
-
-            html.Div(children=[], style={'marginBottom': '1em'}),
-
-            dcc.Graph(
-                id='STFT'
-            ),
-
-            html.H2('Wavelet Transform', style={'text-align': 'center', 'color': colors['text']}),
-
-            html.Div(children=[], style={'marginBottom': '1em'}),
-
-            html.H3('Recursive HT:', style={'text-align': 'left', 'color': colors['text']}),
-
-            html.Div(children=[
-
-                dcc.Dropdown(
-                    id='recursive_ht',
-                    options=[{'label': 'Smooth HT', 'value': True}, {'label': 'No Smooth HT', 'value': False}],
-                    value=False
-                )
-
-            ]),
-
-            html.Div(children=[], style={'marginBottom': '1em'}),
-
-            html.H3('Recursive IF:', style={'text-align': 'left', 'color': colors['text']}),
-
-            html.Div(children=[
-
-                dcc.Dropdown(
-                    id='recursive_if',
-                    options=[{'label': 'Smooth IF', 'value': True}, {'label': 'No Smooth IF', 'value': False}],
-                    value=False
-                )
-
-            ]),
-
-            html.Div(children=[], style={'marginBottom': '1em'}),
-
-            dcc.Graph(
-                id='MWT'
-            ),
-
-            html.H2('Intrinsic Mode Functions', style={'text-align': 'center', 'color': colors['text']}),
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
@@ -379,11 +449,18 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
            State(component_id='noise_sd', component_property='value'),
            State(component_id='discontinuities', component_property='value'),
            State(component_id='discontinuity_sd', component_property='value'),
+           State(component_id='ft_max_frequency', component_property='value'),
+           State(component_id='ft_window', component_property='value'),
+           State(component_id='stft_max_frequency', component_property='value'),
+           State(component_id='stft_window_width', component_property='value'),
+           State(component_id='mwt_max_frequency', component_property='value'),
+           State(component_id='mwt_window_width', component_property='value'),
            State(component_id='max_frequency', component_property='value'),
            State(component_id='which_imfs', component_property='value')])
 
 def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, noise_sd, discontinuities,
-                  discontinuity_sd, max_frequency, which_imfs):
+                  discontinuity_sd, ft_max_frequency, ft_window, stft_max_frequency, stft_window_width,
+                  mwt_max_frequency, mwt_window_width, max_frequency, which_imfs):
 
     time_series = np.zeros_like(time) + np.cos(time) + np.cos(5 * time)
 
@@ -492,18 +569,24 @@ def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, no
     fig_1.update_layout(title={'text': "Time Series", 'y': 0.95, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'})
 
     f_time = fftfreq(int(len(time_series) - 1), time[1] - time[0])[:int(len(time_series) - 1) // 2] * 2 * np.pi
+
+
     f_time_series = fft(time_series)
+
     x_hs, y, z = [0, 5 * np.pi], f_time, (2.0 / int(len(time_series) - 1) *
                                           np.abs(f_time_series[0:int(len(time_series) - 1) // 2])).reshape(-1, 1)
     fig_2 = go.Figure(data=go.Heatmap(z=np.abs(z), y=y, x=x_hs))
+    fig_2.update_layout(yaxis_range=[0, ft_max_frequency])
 
     hilbert = emd_hilbert.Hilbert(time=time, time_series=time_series)
 
-    x_hs, y, z = hilbert.stft_custom(window_width=1002, window='hann')
+    x_hs, y, z = hilbert.stft_custom(window_width=stft_window_width, window='hann')
     fig_3 = go.Figure(data=go.Heatmap(z=np.abs(z), y=y, x=x_hs))
+    fig_3.update_layout(yaxis_range=[0, stft_max_frequency])
 
-    x_hs, y, z = hilbert.morlet_wavelet_custom(window_width=1002)
+    x_hs, y, z = hilbert.morlet_wavelet_custom(window_width=mwt_window_width)
     fig_4 = go.Figure(data=go.Heatmap(z=np.abs(z), y=y, x=x_hs))
+    fig_4.update_layout(yaxis_range=[0, mwt_max_frequency])
 
     emd = AdvEMDpy.EMD(time_series=time_series, time=time)
     emd = emd.empirical_mode_decomposition(knots=knots)
