@@ -272,11 +272,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.H2('Time Series', style={'text-align': 'center', 'color': colors['text']}),
 
-            html.H3('Minimum frequency:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Minimum frequency component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="min_freq_mod",
+                dcc.Input(id="min_freq_mod_1",
                           type='number',
                           value=1)
 
@@ -288,11 +288,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
-            html.H3('Maximum frequency:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Maximum frequency component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="max_freq_mod",
+                dcc.Input(id="max_freq_mod_1",
                           type='number',
                           value=1)
 
@@ -304,11 +304,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
-            html.H3('Frequency period:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Frequency period component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="freq_period",
+                dcc.Input(id="freq_period_1",
                           type='number',
                           value=1)
 
@@ -320,11 +320,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
-            html.H3('Minimum amplitude:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Minimum amplitude component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="min_amp_mod",
+                dcc.Input(id="min_amp_mod_1",
                           type='number',
                           value=1)
 
@@ -336,11 +336,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
-            html.H3('Maximum amplitude:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Maximum amplitude component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="max_amp_mod",
+                dcc.Input(id="max_amp_mod_1",
                           type='number',
                           value=1)
 
@@ -352,11 +352,203 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Div(children=[], style={'marginBottom': '1em'}),
 
-            html.H3('Amplitude modulation frequency:', style={'text-align': 'left', 'color': colors['text']}),
+            html.H3('Amplitude modulation frequency component 1:', style={'text-align': 'left', 'color': colors['text']}),
 
             html.Div(children=[
 
-                dcc.Input(id="amp_freq",
+                dcc.Input(id="amp_freq_1",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Minimum frequency component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_freq_mod_2",
+                          type='number',
+                          value=4)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum frequency component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_freq_mod_2",
+                          type='number',
+                          value=4)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Frequency period component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="freq_period_2",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Minimum amplitude component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_amp_mod_2",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum amplitude component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_amp_mod_2",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Amplitude modulation frequency component 2:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="amp_freq_2",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Minimum frequency component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_freq_mod_3",
+                          type='number',
+                          value=8)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum frequency component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_freq_mod_3",
+                          type='number',
+                          value=8)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Frequency period component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="freq_period_3",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Minimum amplitude component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="min_amp_mod_3",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Maximum amplitude component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="max_amp_mod_3",
+                          type='number',
+                          value=1)
+
+            ],
+
+                style={'text-align': 'right'}
+
+            ),
+
+            html.Div(children=[], style={'marginBottom': '1em'}),
+
+            html.H3('Amplitude modulation frequency component 3:', style={'text-align': 'left', 'color': colors['text']}),
+
+            html.Div(children=[
+
+                dcc.Input(id="amp_freq_3",
                           type='number',
                           value=1)
 
@@ -581,12 +773,26 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
            State(component_id='discontinuities', component_property='value'),
            State(component_id='discontinuity_sd', component_property='value'),
 
-           State(component_id='min_freq_mod', component_property='value'),
-           State(component_id='max_freq_mod', component_property='value'),
-           State(component_id='freq_period', component_property='value'),
-           State(component_id='min_amp_mod', component_property='value'),
-           State(component_id='max_amp_mod', component_property='value'),
-           State(component_id='amp_freq', component_property='value'),
+           State(component_id='min_freq_mod_1', component_property='value'),
+           State(component_id='max_freq_mod_1', component_property='value'),
+           State(component_id='freq_period_1', component_property='value'),
+           State(component_id='min_amp_mod_1', component_property='value'),
+           State(component_id='max_amp_mod_1', component_property='value'),
+           State(component_id='amp_freq_1', component_property='value'),
+
+           State(component_id='min_freq_mod_2', component_property='value'),
+           State(component_id='max_freq_mod_2', component_property='value'),
+           State(component_id='freq_period_2', component_property='value'),
+           State(component_id='min_amp_mod_2', component_property='value'),
+           State(component_id='max_amp_mod_2', component_property='value'),
+           State(component_id='amp_freq_2', component_property='value'),
+
+           State(component_id='min_freq_mod_3', component_property='value'),
+           State(component_id='max_freq_mod_3', component_property='value'),
+           State(component_id='freq_period_3', component_property='value'),
+           State(component_id='min_amp_mod_3', component_property='value'),
+           State(component_id='max_amp_mod_3', component_property='value'),
+           State(component_id='amp_freq_3', component_property='value'),
 
            State(component_id='ft_max_frequency', component_property='value'),
            State(component_id='ft_window', component_property='value'),
@@ -598,14 +804,26 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
            State(component_id='which_imfs', component_property='value')])
 
 def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, noise_sd, discontinuities,
-                  discontinuity_sd, min_freq_mod, max_freq_mod, freq_period, min_amp_mod, max_amp_mod, amp_freq,
+                  discontinuity_sd, min_freq_mod_1, max_freq_mod_1, freq_period_1, min_amp_mod_1, max_amp_mod_1, amp_freq_1,
+                  min_freq_mod_2, max_freq_mod_2, freq_period_2, min_amp_mod_2, max_amp_mod_2, amp_freq_2,
+                  min_freq_mod_3, max_freq_mod_3, freq_period_3, min_amp_mod_3, max_amp_mod_3, amp_freq_3,
                   ft_max_frequency, ft_window, stft_max_frequency, stft_window_width,
                   mwt_max_frequency, mwt_window_width, max_frequency, which_imfs):
 
-    freq_time = frequency(time, freq_period, min_freq_mod, max_freq_mod)
-    amp_time_series = ((max_amp_mod - min_amp_mod) / 2) * np.sin(amp_freq * time) + \
-                      ((max_amp_mod - min_amp_mod) / 2) + min_amp_mod
+    freq_time = frequency(time, freq_period_1, min_freq_mod_1, max_freq_mod_1)
+    amp_time_series = ((max_amp_mod_1 - min_amp_mod_1) / 2) * np.sin(amp_freq_1 * time) + \
+                      ((max_amp_mod_1 - min_amp_mod_1) / 2) + min_amp_mod_1
     time_series = amp_time_series * np.cos(freq_time)
+
+    freq_time = frequency(time, freq_period_2, min_freq_mod_2, max_freq_mod_2)
+    amp_time_series = ((max_amp_mod_2 - min_amp_mod_2) / 2) * np.sin(amp_freq_2 * time) + \
+                      ((max_amp_mod_2 - min_amp_mod_2) / 2) + min_amp_mod_2
+    time_series += amp_time_series * np.cos(freq_time)
+
+    freq_time = frequency(time, freq_period_3, min_freq_mod_3, max_freq_mod_3)
+    amp_time_series = ((max_amp_mod_3 - min_amp_mod_3) / 2) * np.sin(amp_freq_3 * time) + \
+                      ((max_amp_mod_3 - min_amp_mod_3) / 2) + min_amp_mod_3
+    time_series += amp_time_series * np.cos(freq_time)
 
     if not trend:
         pass
