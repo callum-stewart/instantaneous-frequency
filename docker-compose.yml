@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  dash:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dash_dash
+    command: gunicorn --bind :8050 --workers 1 --threads 8 --timeout 0 --reload Dash_app:server
+    volumes:
+      - .:/code
+    ports:
+      - "8050:8050"

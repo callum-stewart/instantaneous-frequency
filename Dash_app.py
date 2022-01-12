@@ -60,6 +60,7 @@ def frequency(time_signal, frequency_period, min_frequency, max_frequency):
 # Dash App - start
 
 app = dash.Dash(__name__)
+server = app.server
 
 colors = {
     'background': '#101921',
@@ -971,7 +972,7 @@ def update_output(n_click, trend, alpha, beta, gamma, noise_bool, noise_mean, no
 
     return fig_1_optional_1, fig_1_optional_2, fig_1, fig_2, fig_3, fig_4, fig_5, fig_6
 
-
-app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
 
 # Dash App - end
